@@ -4,7 +4,7 @@ import { Container, Segment, Image, Button, Icon, Accordion } from 'semantic-ui-
 import { withRouter, Redirect } from 'react-router-dom'
 import shock from '../../images/shock.gif'
 
-const Error = () => {
+const Error = ({ errorInfo }) => {
 
   const [isAccordionOpen, setOpen] = useState(false)
   const toggleAccordion = () => setOpen(!isAccordionOpen)
@@ -12,7 +12,7 @@ const Error = () => {
   return (
     <Container>
       <Redirect to='/error' />
-      <Segment>
+      <Segment style={{ width: '30vw' }}>
         <div className='error'>
           <Image src={shock} alt='funny gif' />
 
@@ -21,18 +21,20 @@ const Error = () => {
         </div>
 
         <a href='/'>
-          <Button type='button'>
+          <Button type='button' style={{marginTop: '20px'}}>
             Back to homepage
           </Button>
         </a>
 
-        <Accordion>
+        <Accordion style={{ marginTop: '20px' }}>
           <Accordion.Title onClick={toggleAccordion}>
-            What went wrong
-            <Icon name='question circle' color='black' />
+            <h3>
+              What went wrong
+              <Icon name='question circle' color='black' style={{marginLeft: "5px"}} />
+            </h3>
           </Accordion.Title>
           <Accordion.Content style={isAccordionOpen ? { display: 'block' } : { display: 'none' }}>
-            <p>AAAAAAH</p>
+            <p style={{ fontSize: '12px' }}>{errorInfo || "We don't know yet..."}</p>
           </Accordion.Content>
         </Accordion>
       </Segment>

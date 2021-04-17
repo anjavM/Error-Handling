@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import Error from 'components/error/Error'
 import ServerAPI from 'utils/ServerAPI'
+import Error from './Error'
 
 class ErrorBoundary extends Component {
   constructor(props) {
     super(props)
 
-    this.state = { hasError: false }
+    this.state = { hasError: false, errorInfo: '' }
   }
 
   static getDerivedStateFromError() {
@@ -17,15 +17,21 @@ class ErrorBoundary extends Component {
     const timeStamp = new Date().toString()
     const details = {
       errorName: error,
-      stackTrace: info,
+      stackTrace: info.componentStack,
       creationTime: timeStamp,
     }
+
+    const stackTrace = info.componentStack
     ServerAPI.reportError(details)
+    this.setState({ errorInfo: stackTrace })
+
   }
 
   render() {
     if (this.state.hasError) {
-      return <Error />
+      return (
+        <Error errorInfo={this.state.errorInfo} />
+      )
     }
     return this.props.children
   }
