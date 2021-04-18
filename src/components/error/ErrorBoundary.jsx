@@ -1,40 +1,41 @@
 import React, { Component } from 'react'
+import { withRouter, Redirect } from 'react-router-dom'
 import ServerAPI from 'utils/ServerAPI'
 import Error from './Error'
 
 class ErrorBoundary extends Component {
-  constructor(props) {
-    super(props)
+    state = { hasError: false, errorInfo: '' }
 
-    this.state = { hasError: false, errorInfo: '' }
-  }
-
-  static getDerivedStateFromError() {
-    return { hasError: true }
-  }
-
-  componentDidCatch(error, info) {
-    const timeStamp = new Date().toString()
-    const details = {
-      errorName: error,
-      stackTrace: info.componentStack,
-      creationTime: timeStamp,
+    static getDerivedStateFromError() {
+      return { hasError: true }
     }
 
-    const stackTrace = info.componentStack
-    ServerAPI.reportError(details)
-    this.setState({ errorInfo: stackTrace })
+    componentDidCatch(error, info) {
+      const timeStamp = new Date().toString()
+      const details = {
+        errorName: error,
+        stackTrace: info.componentStack,
+        creationTime: timeStamp,
+      }
 
-  }
+      const stackTrace = info.componentStack
+      ServerAPI.reportError(details)
+      this.setState({ errorInfo: stackTrace })
 
-  render() {
-    if (this.state.hasError) {
-      return (
-        <Error errorInfo={this.state.errorInfo} />
+    }
+
+    render() {
+      const { children } = this.props
+      const { hasError, errorInfo } = this.state
+      return (hasError ? (
+        <>
+          <Redirect to='/error' />
+          <Error errorInfo={errorInfo} />
+        </>
+      )
+        : children
       )
     }
-    return this.props.children
-  }
 }
 
-export default ErrorBoundary
+export default withRouter(ErrorBoundary)
