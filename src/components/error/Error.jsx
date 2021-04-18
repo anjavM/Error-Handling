@@ -9,7 +9,7 @@ const Error = ({ errorInfo }) => {
   const toggleAccordion = () => setOpen(!isAccordionOpen)
 
   return (
-    <Container data='error-component'>
+    <Container data-testid='error-component'>
       <Segment style={{ width: '30vw' }}>
         <div className='error'>
           <Image src={shock} alt='funny gif' />

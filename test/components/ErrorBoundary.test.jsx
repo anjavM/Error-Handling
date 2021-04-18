@@ -1,8 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { MemoryRouter } from 'react-router' // https://reacttraining.com/react-router/web/api/MemoryRouter
-import Error from 'components/error/Error'
+import { MemoryRouter } from 'react-router'
 import ErrorBoundary from 'components/error/ErrorBoundary'
 
 describe('ErrorBoundary.jsx', () => {
@@ -10,7 +9,7 @@ describe('ErrorBoundary.jsx', () => {
     throw new Error('Oops!')
   }
 
-  const renderComponentWithError = () => (
+  const renderComponent = () => (
     render(
       <MemoryRouter>
         <ErrorBoundary moreInfo='Some error'>
@@ -21,7 +20,7 @@ describe('ErrorBoundary.jsx', () => {
   )
 
   test('when an error is thrown, the error component is displayed', () => {
-    const { getByTestId } = renderComponentWithError()
+    const { getByTestId } = renderComponent()
 
     const errorComponent = getByTestId('error-component')
     expect(errorComponent).toBeInTheDocument()
