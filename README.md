@@ -69,10 +69,11 @@ We would like to provide our users with an experience similar to these pages:
 
 ---
 ## Discussion
-> This is your space to communicate your thoughts as a developer to us. Use this section to describe the decisions you made (architecturally, technically, etc.), as well as any recommendations for alterations/extensions to the feature. Consider what makes a for a stellar PR body and provide it here.
+**A short description of my solution**
+To catch any errors that occur when rendering in an app that uses React 16 and up, there is an option to use `<ErrorBoundary>` component (https://reactjs.org/blog/2017/07/26/error-handling-in-react-16.html). Its lifecycle consists of  `componentDidCatch()` and `getDerivedStateFromError()`, which allows to change the state of the component so it knows when there is an error, and then what needs to be done once the error is caught (which allows, for example, error reporting). Most importantly, it allows conditional rendering of an error message if the error is caught, and children component when otherwise. 
 
-> If there are any assumptions you had to make because of ambiguity in the feature request, please list them here!
+Since the goal was to display it inside the content container, this is where I used `<ErrorBoundary>` as a catch-all wrapper inside the router. 
 
-> If your implementation involves additional setup to run, please let us know here.
+Where can you see it in action? Click through the sidebar menu links and you'll see :) 
 
-> Any and all feedback on the code challenge is greatly appreciated. Please let us know if it could be improved, if it was too long, if expectations weren't clear, etc.!
+As you may have noticed, once you enter the faulty component, the sidebar is there but everything directs to the error component. Routing should be working in theory, but the  `hasError` state is still true and that does not change when you go to the other menu link. To solve this, we would need to change the state back to false when the error occurs and you click at the sidebar, but I did not manage to figure it out in a reasonable amount of time. 

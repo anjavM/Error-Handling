@@ -19,6 +19,16 @@ describe('ErrorBoundary.jsx', () => {
     )
   )
 
+  const renderComponentWithChildren = () => (
+    render(
+      <MemoryRouter>
+        <ErrorBoundary moreInfo='Some error'>
+          <div data-testid='fake-div' />
+        </ErrorBoundary>
+      </MemoryRouter>
+    )
+  )
+
   test('when an error is thrown, the error component is displayed', () => {
     const { getByTestId } = renderComponent()
 
@@ -26,4 +36,10 @@ describe('ErrorBoundary.jsx', () => {
     expect(errorComponent).toBeInTheDocument()
   })
 
+  test('without an error, render a component with regular children', () => {
+    const { getByTestId } = renderComponentWithChildren()
+
+    const child = getByTestId('fake-div')
+    expect(child).toBeInTheDocument()
+  })
 })
